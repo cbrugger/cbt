@@ -23,8 +23,5 @@
           </password>
       </security>
   </datasource>
-  <drivers>
-     <driver name="mysql" module="com.mysql"/>
-  </drivers>
 </datasources>
  
