@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
   <datasource jndi-name="java:jboss/datasources/cbtds" pool-name="cbtds" enabled="true" use-java-context="true" use-ccm="true">
-    <connection-url>jdbc:mysql://172.17.0.9:3306/cbt</connection-url>
+    <connection-url>jdbc:mysql://172.30.100.213:3306/cbt</connection-url>
     <driver>mysql</driver>
     <pool>
       <flush-strategy>IdleConnections</flush-strategy>
