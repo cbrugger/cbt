@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
-  <datasource jndi-name="java:jboss/datasources/${env.OPENSHIFT_MYSQL_DATASOURCE}" pool-name="${env.OPENSHIFT_MYSQL_DATASOURCE}" enabled="false" use-java-context="true" use-ccm="true">
+  <datasource jndi-name="java:jboss/datasources/cbtds" pool-name="cbtds" enabled="false" use-java-context="true" use-ccm="true">
     <connection-url>jdbc:mysql://172.17.0.9:3306/cbt</connection-url>
     <driver>mysql</driver>
     <pool>
