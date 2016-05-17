@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
   <datasource jndi-name="java:/CBTDS" pool-name="CBTPool">
       <connection-url>
-          jdbc:mysql://mysql:3306/cbt
+          jdbc:mysql://172.17.0.9:3306/cbt
       </connection-url>
       <driver>
          mysql
