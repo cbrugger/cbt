@@ -17,7 +17,6 @@
 package de.cbrugger.app.cbt.rest;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +28,6 @@ import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,9 +38,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import de.cbrugger.app.cbt.data.MemberRepository;
-import de.cbrugger.app.cbt.model.Member;
-import de.cbrugger.app.cbt.service.MemberRegistration;
+import de.cbrugger.app.cbt.data.QuestionRepository;
+import de.cbrugger.app.cbt.model.Question;
+import de.cbrugger.app.cbt.service.QuestionService;
 
 
 /**
@@ -58,25 +56,22 @@ public class QuestionResourceRESTService {
     private Logger log;
 
     @Inject
-    private Validator validator;
+    private QuestionRepository repository;
 
     @Inject
-    private MemberRepository repository;
-
-    @Inject
-    MemberRegistration registration;
+    QuestionService registration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Member> listAllMembers() {
+    public List<Question> listAllMembers() {
         return repository.findAllOrderedByName();
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Member lookupMemberById(@PathParam("id") long id) {
-        Member member = repository.findById(id);
+    public Question lookupMemberById(@PathParam("id") long id) {
+        Question member = repository.findById(id);
         if (member == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
@@ -90,15 +85,15 @@ public class QuestionResourceRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createMember(Member member) {
+    public Response createMember(Question question) {
 
         Response.ResponseBuilder builder = null;
 
         try {
             // Validates member using bean validation
-            validateMember(member);
+            validateMember(question);
 
-            registration.register(member);
+            registration.register(question);
 
             // Create an "ok" response
             builder = Response.ok();
@@ -130,22 +125,12 @@ public class QuestionResourceRESTService {
      * exception so that it can be interpreted separately.
      * </p>
      * 
-     * @param member Member to be validated
+     * @param question Member to be validated
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email already exists
      */
-    private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
-        // Create a bean validator and check for issues.
-        Set<ConstraintViolation<Member>> violations = validator.validate(member);
+    private void validateMember(Question question) throws ConstraintViolationException, ValidationException {
 
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
-        }
-
-        // Check the uniqueness of the email address
-        if (emailAlreadyExists(member.getEmail())) {
-            throw new ValidationException("Unique Email Violation");
-        }
     }
 
     /**
@@ -175,7 +160,7 @@ public class QuestionResourceRESTService {
      * @return True if the email already exists, and false otherwise
      */
     public boolean emailAlreadyExists(String email) {
-        Member member = null;
+        Question member = null;
         try {
             member = repository.findByEmail(email);
         } catch (NoResultException e) {
