@@ -48,7 +48,7 @@ import de.cbrugger.app.cbt.service.QuestionService;
  * <p/>
  * This class produces a RESTful service to read/write the contents of the members table.
  */
-@Path("/question")
+@Path("/questions")
 @RequestScoped
 public class QuestionResourceRESTService {
 
